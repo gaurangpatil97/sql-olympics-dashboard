@@ -14,8 +14,7 @@ SQL PROJECT/
 ├── historical/                    # Historical medals 1896–2022 (CSVs)
 ├── paris2024/                     # Paris 2024 full dataset (CSVs)
 │   └── results/                   # Per-sport detailed results (45 disciplines)
-├── README.md                      # This file
-└── kaggle.json                    # Kaggle API credentials (not committed)
+└── README.md                      # This file
 ```
 
 ## 🛠️ Stack
@@ -70,7 +69,7 @@ Three main views power everything:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/sql-olympics-dashboard.git
+   git clone https://github.com/patilgaurang0907/sql-olympics-dashboard.git
    cd sql-olympics-dashboard
    ```
 
