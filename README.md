@@ -4,7 +4,7 @@ An end-to-end data analytics project built on **128 years of Olympic Games data 
 
 ## 📘 Project Presentation
 
-> 🎥 For a detailed walkthrough of the methodology, visuals, and insights, view the [PROJECT DEMO PPT](./Olympics_Analytics_Dashboard.pptx)
+> 🎥 For a detailed walkthrough of the methodology, visuals, and insights, view the [PROJECT DEMO PPT](./Olympics_Analytics_Dashboard.pdf)
 
 ---
 
