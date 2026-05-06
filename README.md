@@ -1,118 +1,93 @@
 # 🏅 Olympics Analytics Dashboard
 
-An end-to-end data analytics project built on 128 years of Olympic Games data (1896–2024), including Paris 2024. All data cleaning and analysis is done purely in SQL. Python is used only for rendering the interactive dashboard.
+An end-to-end data analytics project built on **128 years of Olympic Games data (1896–2024)**, including a dedicated spotlight on **Paris 2024**. This project demonstrates a **"SQL-First" architecture**, where all data transformation, cleaning, and analysis are performed within the database layer, while Python serves purely as the visualization engine.
 
-## 📋 What This Project Does
+## 📘 Project Presentation
 
-Combines two Kaggle datasets — historical Olympic medals from 1896 to 2022, and the complete Paris 2024 dataset — into a unified SQLite database. From there, SQL views handle all cleaning, deduplication, and standardisation. Nine analytical queries power an interactive Plotly Dash dashboard with real-time filters.
-
-## 📁 Project Structure
-
-```
-SQL PROJECT/
-├── olympics_sql_dashboard.ipynb   # Main notebook
-├── historical/                    # Historical medals 1896–2022 (CSVs)
-├── paris2024/                     # Paris 2024 full dataset (CSVs)
-│   └── results/                   # Per-sport detailed results (45 disciplines)
-└── README.md                      # This file
-```
-
-## 🛠️ Stack
-
-- **Data:** 📊 Kaggle API (piterfm datasets)
-- **Storage:** 🗄️ SQLite in-memory database
-- **Cleaning & Analysis:** 🔍 Pure SQL (`CREATE VIEW`, `WITH`, `ROW_NUMBER()`, `CASE`, `UNION ALL`)
-- **Dashboard:** 🎨 Python + Plotly Dash
-- **Charts:** 📈 Plotly Express + Plotly Graph Objects
-
-## 🎛️ Dashboard Features
-
-**8 KPI Cards**  
-Total medals, unique athletes, countries, sports, editions, and gold/silver/bronze counts across all time.
-
-**5 Interactive Filters**  
-Year range slider (1896–2024), country dropdown, sport dropdown, medal type, and season (Summer/Winter). All filters update in real-time.
-
-**9 Charts:**
-1. 📅 **Medals over time** — Stacked bar by medal type
-2. 🌍 **Medal share by country** — Donut chart (top 8)
-3. 🏆 **Top 15 countries** — Stacked gold/silver/bronze breakdown
-4. 🏋️ **Top 15 sports by medals** — Colored by country diversity
-5. 👫 **Gender participation trend** — Area chart over time
-6. ☀️❄️ **Summer vs Winter medals** — Line chart
-7. 🥇 **Medal type distribution** — Donut
-8. 🗼 **Paris 2024 country medal table** — Current games spotlight
-9. 🗼 **Paris 2024 medals by sport** — Per-discipline breakdown
-
-## 💡 SQL Design Decisions
-
-All data cleaning happens in `CREATE VIEW` statements, not in Python. This keeps the transformation layer declarative and auditable. Key techniques used:
-
-- **Deduplication:** `ROW_NUMBER() OVER (PARTITION BY ...)` to identify and keep only the first occurrence of each medal record
-- **Null handling:** `COALESCE` to provide sensible defaults
-- **Text standardisation:** `UPPER(TRIM(...))` for consistent formatting
-- **Year extraction:** `SUBSTR(slug_game, -4)` to pull the year from game slugs like `'paris-2024'`
-- **Data unification:** `UNION ALL` combining historical and Paris 2024 data into a single `all_olympics` view
-- **Security:** Parameterized queries (`?` placeholders) in all Dash callbacks to prevent SQL injection
-
-Three main views power everything:
-- `clean_historical` — Deduplicated, standardised historical medals
-- `clean_paris2024` — Cleaned Paris 2024 medals with matching schema
-- `all_olympics` — UNION of both for unified querying
-
-## 📥 Data Sources
-
-- [**Paris 2024 Olympic Summer Games**](https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games) — Athletes, medals, events, schedules, venues
-- [**Olympic Games Medals 1896–2018**](https://www.kaggle.com/datasets/piterfm/olympic-games-medals-19862018) — Historical medals and results
-
-## 🚀 Setup & Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/patilgaurang0907/sql-olympics-dashboard.git
-   cd sql-olympics-dashboard
-   ```
-
-2. **Get your Kaggle API token**
-   - Go to [kaggle.com](https://www.kaggle.com) → **Profile** → **Settings** → **API** → **Create New Token**
-   - This downloads `kaggle.json`
-
-3. **Place your credentials**
-   ```bash
-   cp ~/Downloads/kaggle.json ~/.kaggle/kaggle.json
-   chmod 600 ~/.kaggle/kaggle.json
-   ```
-
-4. **Install dependencies**
-   ```bash
-   pip install kaggle dash plotly pandas
-   ```
-
-5. **Run the notebook**
-   - Open `olympics_sql_dashboard.ipynb` in Jupyter
-   - Run all cells in order
-   - The dashboard will be available at `http://localhost:8050`
-
-## 📊 Key Insights
-
-The dashboard reveals patterns across 128 years:
-
-- **Participation growth:** More countries and sports as Olympics evolved
-- **Gender inclusion:** Sharp increase in female medal counts post-2000
-- **Winter vs Summer:** Clear seasonal split in medal distribution
-- **Host advantage:** Paris 2024 showed competitive depth across 45 sports
-- **Dominant nations:** Historical leadership and emerging powerhouses
-
-## 🔒 Security Notes
-
-- Kaggle credentials are excluded from version control (`.gitignore`)
-- All database queries use parameterized statements to prevent injection
-- SQLite runs in-memory; no data persists after the notebook session ends
-
-## 📝 License
-
-This project is for educational purposes. Data sourced from Kaggle under their dataset licenses.
+> 🎥 For a detailed walkthrough of the methodology, visuals, and insights, view the [PROJECT DEMO PPT](./Olympics_Analytics_Dashboard.pptx)
 
 ---
 
-Built with ❤️ for data enthusiasts who love the Olympics 🏅
+## 📋 Project Overview
+
+This dashboard unifies two massive Kaggle datasets into a single, high-performance analytical tool:
+1. **Historical Olympics (1896–2022):** Medals, athletes, and host information.
+2. **Paris 2024:** Real-time data including medals, events, and schedules.
+
+All data is ingested into an **in-memory SQLite database**, cleaned via **SQL Views**, and presented through an interactive **Plotly Dash** application.
+
+## 🛠️ The Tech Stack
+
+- **Data Ingestion:** Programmatic Kaggle API Integration
+- **Database:** SQLite (Stateless In-Memory execution)
+- **Transformation:** Pure SQL (`CREATE VIEW`, `WITH`, `ROW_NUMBER()`, `UNION ALL`)
+- **Visualization:** Python + Plotly Dash
+- **Security:** Parameterized SQL queries to prevent injection attacks
+
+## 📁 Repository Structure
+
+```text
+SQL PROJECT/
+├── historical/                        # Local folder for 1896–2022 CSVs (Git ignored)
+├── paris2024/                         # Local folder for Paris 2024 CSVs (Git ignored)
+├── .gitignore                         # Prevents large datasets & API keys from being pushed
+├── Olympics_Analytics_Dashboard.pptx  # Project presentation deck
+├── olympics_sql_dashboard.ipynb       # Main source code (ETL, SQL, and Dashboard)
+└── README.md                          # Project documentation
+```
+
+## 🔍 SQL Engineering Highlights
+
+Unlike traditional "Pandas-heavy" notebooks, this project pushes all logic to the database layer to ensure scalability and auditability:
+
+- **Deduplication:** Uses `ROW_NUMBER() OVER (PARTITION BY ...)` to ensure medal records are unique across both datasets.
+- **Standardisation:** Unifies inconsistent gender labels (`MALE`, `MEN`, `M`) and country codes across 100+ years of data.
+- **Year Extraction:** Uses `SUBSTR(slug_game, -4)` to reliably parse game years from slugs like `cortina-d-ampezzo-1956`.
+- **Unified Schema:** Uses `UNION ALL` to merge disparate historical and modern tables into a single `all_olympics` view.
+- **Data Security:** Parameterized queries (`?` placeholders) in all Dash callbacks to safely handle user-driven filters.
+
+## 📊 Dashboard Features
+
+The application features **8 KPI Cards** and **9 Interactive Charts**:
+
+1. 📅 **Medals Over Time** — Stacked bar chart showing the growth of the Games from 1896 to 2024
+2. 🌍 **Medal Share** — Donut chart of top-performing nations all-time
+3. 🏆 **Global Rankings** — Stacked breakdown of Gold, Silver, and Bronze by country
+4. 🏋️ **Sports Diversity** — Top 15 sports mapped against country participation breadth
+5. 👫 **Gender Trends** — Area chart showing the historic rise of female participation post-2000
+6. ☀️❄️ **Seasonality** — Comparison of Summer vs. Winter Games medal volumes
+7. 🥇 **Medal Distribution** — Overall Gold / Silver / Bronze split
+8. 🗼 **Paris 2024 Spotlight** — Dynamic medal table for the most recent Games
+9. 🏊 **Paris 2024 Sports** — Medal distribution by discipline across all 45 sports
+
+**5 Interactive Filters:** Year range slider (1896–2024), Country, Sport, Medal type, Season — all updating every chart in real-time.
+
+## 🚀 Setup & Installation
+
+1. **Clone the repo**
+```bash
+   git clone https://github.com/patilgaurang0907/sql-olympics-dashboard.git
+   cd sql-olympics-dashboard
+```
+
+2. **Configure Kaggle API**
+   - Go to [kaggle.com](https://www.kaggle.com) → Settings → API → Create New Token
+   - Place `kaggle.json` at `~/.kaggle/kaggle.json`
+   - On Windows: `C:\Users\YourName\.kaggle\kaggle.json`
+
+3. **Install dependencies**
+```bash
+   pip install kaggle dash plotly pandas
+```
+
+4. **Launch**
+   - Open `olympics_sql_dashboard.ipynb` and run all cells
+   - Access the dashboard at `http://localhost:8050`
+
+## 📝 License
+
+This project is for educational purposes. Data is sourced from Kaggle under the licenses provided by the dataset authors.
+
+---
+
+Built by **Gaurang Patil**
