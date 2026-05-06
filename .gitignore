@@ -1,0 +1,17 @@
+# 1. Downloaded Datasets (Folders)
+/historical/
+/paris2024/
+
+# 2. API Keys / Secrets
+kaggle.json
+
+# 3. Specific File Types (Catch-alls)
+*.csv
+*.db
+*.sqlite
+*.sqlite3
+
+# 4. Jupyter / Python Environment
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
